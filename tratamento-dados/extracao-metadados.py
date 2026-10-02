@@ -53,13 +53,17 @@ z = zipfile.ZipFile(io.BytesIO(r.content))
 z.extractall(".")  # cria a pasta Fake.br-Corpus-master/
 os.listdir(".")
 df_fake = carregar_textos("Fake.br-Corpus-master/full_texts/fake", label=1)
+print("Carregamento de textos fake realizado com sucesso.")
 df_true = carregar_textos("Fake.br-Corpus-master/full_texts/true", label=0)
+print("Carregamento de textos true realizado com sucesso.")
 df_textos = pd.concat([df_fake, df_true], ignore_index=True)
 
 npl = spacy.load("pt_core_news_sm")
 
 metadado_fake =  metaExtractionFromDataset(df_fake['texto'])
+print("Metadados extraídos dos textos fake com sucesso.")
 metadado_true = metaExtractionFromDataset(df_true['texto'])
+print("Metadados extraídos dos textos true com sucesso.")
 df_metadados_fake = pd.DataFrame(list(metadado_fake.items()), columns=["Metadado", "Quantidade"])
 df_metadados_true = pd.DataFrame(list(metadado_true.items()), columns=["Metadado", "Quantidade"])
 df_metadados_total = pd.merge(df_metadados_fake, df_metadados_true, on="Metadado", how="outer").fillna(0)
